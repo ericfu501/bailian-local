@@ -17,14 +17,14 @@ let promptTemplate = fs.readFileSync('prompts/prompt_v2.md', 'utf-8');
 const completePrompt = promptTemplate.replace('{{ input_suedo_code }}', userPrompt);
 
 // console.log("prompt template: ", completePrompt, "\n -----------------------------", )
-console.log("user prompt: ", userPrompt, "\n -----------------------------")
+console.log("user prompt: ", userPrompt, "\n --------------------------------------------")
 
 // 转圈加载图标
 function startLoading() {
     const spinner = ['|', '/', '-', '\\'];
     let i = 0;
     return setInterval(() => {
-        process.stdout.write(`\r waiting for qwen to answer ... ${spinner[i]}`);
+        process.stdout.write(`\r *** waiting for qwen to answer ... ${spinner[i]}`);
         i = (i + 1) % spinner.length;
     }, 100);
 }
