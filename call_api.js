@@ -47,13 +47,13 @@ async function main() {
         process.stdout.write('\r'); // 清除加载图标
 
         // 将完整的模型输出写入 raw_output.md 文件
-        fs.writeFileSync('files/raw_output.md', JSON.stringify(completion), 'utf-8');
+        fs.writeFileSync('files/raw_output.json', JSON.stringify(completion), 'utf-8');
 
         // 提取模型回答的 content 部分并写入 output.md 文件
         const modelResponse = completion.choices[0].message.content;
         fs.writeFileSync('files/output.md', modelResponse, 'utf-8');
 
-        console.log('Model output saved to output.md and raw_output.md');
+        console.log('Model output saved to output.md and raw_output.json');
     } catch (error) {
         clearInterval(loadingInterval);
         process.stdout.write('\r'); // 清除加载图标

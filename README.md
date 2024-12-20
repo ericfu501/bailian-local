@@ -2,22 +2,6 @@
 
 本项目是一个使用阿里云 DashScope API 和 Node.js 的示例项目。它展示了如何从文件中读取用户输入，调用大模型 API，并将结果保存到文件中。
 
-## 目录结构
-
-.
-├── call_api.js
-├── scripts
-│ ├── add_dollar_sign.js
-│ └── remove_dollar_sign.js
-├── prompts
-│ ├── prompt_v2.md
-│ └── prompt_wt_reflection.md
-├── files
-│ ├── input.md
-│ ├── output.md
-│ └── raw_output.md
-└── README.md
-
 ## 文件说明
 
 - **call_api.js**: 主脚本，负责读取用户输入，调用阿里云大模型 API，并将结果保存到 `output.md` 和 `raw_output.md`。
