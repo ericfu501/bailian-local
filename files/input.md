@@ -1,29 +1,15 @@
-根据dwThrs[16]，计算每个推力器的喷气脉宽TimePulse[16]；//TimePulse[16]的单位：ms
-Tout[i]=0；//i=0,1,2，Tout[i]为临时变量
-Fout[i]=0；//i=0,1,2，Fout[i]为临时变量
-dleta_m10=0；//dleta_m10临时变量
-FOR1 j=0;j<16;j++
-FOR2 i=0;i<3;i++
-$$Tout[i]+= m_PulseThruster_Torque[j][i] TimePulse[j]0.001；$$
-$$Fout[i]+= m_PulseThruster_Force[j][i]* TimePulse[j]0.001；$$
-END2
-$$dleta_m10 = dleta_m10 + 10/(Isp109.80665) TimePulse[j]0.001；$$
-END1
-IF1 bMode=AFM andbFiring＝TRUE
-dleta_m10=dleta_m10+490/(Isp4909.80665)∆ts；
-END1
-mSat=mSat-dleta_m10；//计算10N产生的质量消耗
-IF1 mSat<2500or mSat>5600
-mSat=2500.0；
-END1
-TjetX=Tout[0]/∆ts；TjetY=Tout[1]/∆ts；TjetZ=Tout[2]/∆ts；
-FjetX=Fout[0]/∆ts；FjetY=Fout[1]/∆ts；FjetZ=Fout[2]/∆ts；
-IF1 fabs(TjetX)>50.0 or fabs(TjetY)>50.0 or fabs(TjetZ)>50.0
-TjetX=0.0；TjetY=0.0；TjetZ=0.0；
-END1
-IF1 fabs(FjetX)>50.0 or fabs(FjetY)>50.0 or fabs(FjetZ)>600.0
-FjetX=0.0；FjetY=0.0；FjetZ=0.0；
-END1
-$${m_Orb.dV}{jetx}={m_Orb.dV}{jetx}+FjetX/mSat∆ts/1000；$$//mSat卫星质量
-$${m_Orb.dV}{jety}={m_Orb.dV}{jety}+FjetY/mSat∆ts/1000；$$
-$${m_Orb.dV}{jetz}={m_Orb.dV}{jetz}+FjetZ/mSat*∆ts/1000；$$
+（1）计算优化指标值①
+$$i={PSONum%Num}_{PSO}$$
+$$② 若{x}_{PSO}[i][0]>UB[0]或{x}_{PSO}[i][0]<LB[0]或{x}_{PSO}[i][1]>UB[1]或{x}_{PSO}[i][1]<LB[1]或{x}_{PSO}[i][2]>UB[2]或{x}_{PSO}[i][2]<LB[2]，则：$$
+$${x}_{PSO}[i]={x}_{lst}[i]，{v}_{PSO}[i]={v}_{lst}[i]，Ji={J}_{lst}[i]$$
+③ 否则：
+$$u={x}_{PSO}[i]$$
+调用4.6.16（粒子群优化指标计算）
+$${x}_{lst}[i]={x}_{PSO}[i]，{J}_{lst}[i]=Ji$$
+（2）寻找最优指标
+① 若$$Ji<{J}_{p}[i]，则：{x}_{p}[i]={x}_{PSO}[i]，{J}_{p}[i]=Ji$$
+② 若$$Ji<{J}_{g}，则：{x}_{g} ={x}_{PSO}[i]，{J}_{g} =Ji$$
+3）更新粒子
+$$若i={Num}_{PSO}-1，则：对于第k个粒子（{0~Num}_{PSO}-1）、第j维变量（0~2）$$
+$$① {w}_{PSO}[k][j]={v}_{PSO}[k][j]/{2^k}_{PSO} + {K}_{p}·rand·({x}_{p}[k][j]-{x}_{PSO}[k][j])+{K}_{g}·rand·({x}_{g}[j]-{x}_{PSO}[k][j])$$
+$$② {y}_{PSO}[k][j]={x}_{PSO}[k][j]+{w}_{PSO}[k][j]$$

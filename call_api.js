@@ -12,9 +12,10 @@ const openai = new OpenAI({
 // 读取 input.md 文件中的用户提示
 const userPrompt = fs.readFileSync('files/input.md', 'utf-8');
 
-// 读取 prompt_v2.md 文件并替换占位符
-let promptTemplate = fs.readFileSync('prompts/prompt_v2.md', 'utf-8');
-const completePrompt = promptTemplate.replace('{{ input_suedo_code }}', userPrompt);
+// 根据配置文件选择提示模板文件
+const promptFile = config.promptFile || 'prompt_v2.md';
+let promptTemplate = fs.readFileSync(`prompts/${promptFile}`, 'utf-8');
+const completePrompt = promptTemplate.replace('{{ input_psuedo_code }}', userPrompt);
 
 // console.log("prompt template: ", completePrompt, "\n -----------------------------", )
 console.log("user prompt: ", userPrompt, "\n --------------------------------------------")

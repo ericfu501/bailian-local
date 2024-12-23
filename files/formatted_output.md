@@ -1,42 +1,36 @@
 $$
-Flg=1;\\
-t_{goNum1}=0;\\
-r_{L} =[H_{f}, X_{f}];\\
-r_{fG} =[h_{f}, 0];\\
-IF1(t_{go}>10 && n_{QPGNum}==0)\\
-t_{gopst}=t_{go}-T;\\
-r_{G}=r-r_{L};\\
-v_{G}=v;\\
-a=a_{fG}[0];\\
-b=-(3 \cdot v_{fG}[0] + v_{G}[0]);\\
-c=4 \cdot (r_{fG}[0] - r_{G}[0]);\\
-tt=(-b + \sqrt{\max(b^{2} - 4 \cdot a \cdot c, 0)}) / 2.0 / a;\\
-t_{go1}=\max(tt, T);\\
-t_{QPG1}=0;\\
-C_{QPG0}=12 \cdot (r_{fG} - r_{G}) / t_{go1}^{2} - 6 \cdot (v_{fG} + v_{G}) / t_{go1} + a_{fG};\\
-C_{QPG1}=-48 \cdot (r_{fG} - r_{G}) / t_{go1}^{3} + 6 \cdot (5 \cdot v_{fG} + 3 \cdot v_{G}) / t_{go1}^{2} - 6 \cdot a_{fG} / t_{go1};\\
-C_{QPG2}=36 \cdot (r_{fG} - r_{G}) / t_{go1}^{4} - 12 \cdot (2 \cdot v_{fG} + v_{G}) / t_{go1}^{3} + 6 \cdot a_{fG} / t_{go1}^{2};\\
-IF2(\left| t_{gopst} - t_{go1} \right| > dt_{go})\\
-t_{goNum1}=t_{goNum} + 1;\\
+Tout[i]=0；//i=0,1,2，Tout[i]为临时变量\\
+Fout[i]=0；//i=0,1,2，Fout[i]为临时变量\\
+dleta_m10=0；//dleta_m10临时变量\\
+FOR1 j=0;j<16;j++\\
+FOR2 i=0;i<3;i++\\
+Tout[i]+= m_Pulse*Thruster_Torque[j][i]*TimePulse[j]*0.001；\\
+Fout[i]+=m_Pulse*Thruster_Force[j][i]*TimePulse[j]*0.001；\\
+END2\\
+dleta_m10 =dleta_m10 + 10/(Isp*109.80665) * TimePulse[j]*0.001；\\
+END1\\
+{Y}_{THRi}=0；//局部变量\\
+IF1 dwThrpi&1//推力器正在正喷气\\
+{Y}_{THRi}=-1；\\
+END1\\
+IF1 dwThrmi&1//推力器正在负喷气\\
+{Y}_{THRi}=1；\\
+END1\\
+dwThrpi=dwThrmi=0；\\
+hea=h1-h2；\\
+FOR1 n=0;n<16;n++\\
+fer={Y}_{i}-{R}_{PRMi}；\\
+dwThrpi左移一位；\\
+dwThrmi左移一位；\\
+IF1 fer+{Y}_{THRi}*hea>=h1//超过正槛值\\
+{Y}_{THRi}=1\\
+dwThrmi=dwThrmi|0x1；\\
+ELSEIF1 fer+{Y}_{THRi}*hea<=-h1 //超过负槛值\\
+{Y}_{THRi}=-1\\
+dwThrpi=dwThrpi|0x1；\\
 ELSE2\\
-t_{goNum1}=0;\\
-ENDIF2\\
-IF3(t_{goNum1} > N_{tgo})\\
-t_{goNum1}=0;\\
-Flg=0;\\
-ENDIF3\\
-ELSE1\\
-t_{go1}=t_{go} - T;\\
-t_{QPG1}=t_{QPG} + T;\\
-ENDIF1\\
-a_{G}=C_{QPG0} + C_{QPG1} \cdot t_{QPG1} + C_{QPG2} \cdot t_{QPG1}^{2};\\
-n_{QPGNum1}=n_{QPGNum} + 1;\\
-IF4(n_{QPGNum1} > n)\\
-n_{QPGNum1}=0;\\
-ENDIF4\\
-a_{jet}[0]=a_{G}[0] + g_{M};\\
-a_{jet}[1]=a_{G}[1];\\
-C_{0}=C_{QPG0};\\
-C_{1}=C_{QPG1};\\
-C_{2}=C_{QPG2};\\
+{Y}_{THRi}=0；\\
+END2\\
+{R}_{PRMi}={R}_{PRMi}+0.002*({Y}_{THRi}-{R}_{PRMi})；\\
+END1\\
 $$

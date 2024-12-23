@@ -1,48 +1,16 @@
-Flg=1
-{t}_{goNum1}=0
-{r}_{L} =[{H}_{f} ,{X}_{f}]
-{r}_{fG} =[{h}_{f} ,0]
-if({t}_{go}>10 &&{n}_{QPGNum}==0)
-{
-    {t}_{gopst}={t}_{go}-T
-    {r}_{G}=r-{r}_{L}
-    {v}_{G}=v
-    a={a}_{fG}[0]
-    b=-(3·{v}_{fG}[0]+{v}_{G}[0])
-    c=4·({r}_{fG}[0]-{r}_{G}[0])
-    tt=(-b+sqrt(max({b}^{2}-4·a·c,0)))/2.0/a
-    {t}_{go1}=max(tt,T)
-    {t}_{QPG1}=0
-    {C}_{QPG0}=12·({r}_{fG}-{r}_{G})/{{t}_{go1}}^{2}-6·({v}_{fG}+{v}_{G})/{t}_{go1}+{a}_{fG}
-    {C}_{QPG1}=-48·({r}_{fG}-{r}_{G})/{{t}_{go1}}^{3}+6·(5·{v}_{fG}+3·{v}_{G})/{{t}_{go1}}^{2}-6·{a}_{fG}/{t}_{go1}
-    {C}_{QPG2}=36·({r}_{fG}-{r}_{G})/{{t}_{go1}}^{4}-12·(2·{v}_{fG}+{v}_{G})/{{t}_{go1}}^{3}+6·{a}_{fG}/{{t}_{go1}}^{2}
-    if(|{t}_{gopst}-{t}_{go1}|>{dt}_{go})
-    {
-        {t}_{goNum1}={t}_{goNum}+1
-    }
-    else
-    {
-        {t}_{goNum1}=0
-    }
-    if({t}_{goNum1}>{N}_{tgo})
-    {
-        {t}_{goNum1}=0
-        Flg=0
-    }
-}
-else
-{
-    {t}_{go1}={t}_{go}-T
-    {t}_{QPG1}={t}_{QPG}+T
-}
-{a}_{G}={C}_{QPG0}+{C}_{QPG1}·{t}_{QPG1}+{C}_{QPG2}·{{t}_{QPG1}}^{2}
-{n}_{QPGNum1}={n}_{QPGNum}+1
-if({n}_{QPGNum1}>n)
-{
-    {n}_{QPGNum1}=0
-}
-{a}_{jet}[0]={a}_{G}[0]+{g}_{M}
-{a}_{jet}[1]={a}_{G}[1]
-{C}_{0}={C}_{QPG0}
-{C}_{1}={C}_{QPG1}
-{C}_{2}={C}_{QPG2}
+（1）记号
+u∈[1×3]，P∈[1×2]，V∈[1×2]
+（2）初始化
+① {T}_{1} =u[0]，{ω}_{2} =u[1]，{θ}_{2} =u[2]
+② Tmpr={C}_{GI} ∙{r}_{I} ，P=[Tmpr[0] Tmpr[2]]，r0=P，rf=[{r}_{M} 0]
+V=[0 0]，mm=mass
+③ {h}_{break} ={r}_{tGx1} ，vfG[0]={v}_{tGx1} ，afG[0]={a}_{tGx1}
+vfG[1]=0，afG[1]=0
+④ 制导参数初始化：
+{i}_{t}=0，tt=0
+{ω}_{max}=|{ω}_{2}|，{F}_{max}=6∙F285
+mode=1，{dt}_{go}=10，{N}_{tgo}=5，num=15
+{t}_{go}=1000，{n}_{QPGNum}=0，{t}_{QPG}=0，{t}_{goNum}=0
+{C}_{QPG0} =[0, 0]，{C}_{QPG1} =[0, 0]，{C}_{QPG2} =[0, 0]
+FlgwMax=0
+⑤ Ji=1e10
