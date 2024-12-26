@@ -25,7 +25,7 @@ function startLoading() {
     const spinner = ['|', '/', '-', '\\'];
     let i = 0;
     return setInterval(() => {
-        process.stdout.write(`\r *** waiting for qwen to answer ... ${spinner[i]}`);
+        process.stdout.write(`\r *** waiting for model to answer ... ${spinner[i]}`);
         i = (i + 1) % spinner.length;
     }, 100);
 }

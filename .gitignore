@@ -7,9 +7,14 @@ node_modules/
 # 忽略环境变量文件
 .env
 
+# 忽略输入文件
+input.md
+temp.md
+
 # 忽略输出文件
 output.md
-raw_output.md
+formatted_output.md
+raw_output.json
 
 # 忽略api_key 文件
 config.json
