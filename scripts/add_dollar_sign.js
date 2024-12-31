@@ -9,9 +9,10 @@ function addDollarSign(input) {
   const lines = input.split('\n');
   const dollarSign = useDoubleDollar ? '$$' : '$'; // 根据配置选择符号
   const latexPattern = /[\\{}^_]/; // 匹配 LaTeX 代码中常见的符号
+  const excludePattern = /^[{}]$/; // 排除只有 { 或 } 的情况
 
   const result = lines.map(line => {
-    if (latexPattern.test(line)) {
+    if (latexPattern.test(line) && !excludePattern.test(line.trim())) {
       const commentIndex = line.indexOf('//');
       if (commentIndex !== -1) {
         return `${dollarSign}${line.substring(0, commentIndex)}${dollarSign}${line.substring(commentIndex)}`.replace('${', '\\${');
